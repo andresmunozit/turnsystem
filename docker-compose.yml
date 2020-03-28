@@ -8,3 +8,10 @@ services:
             - ./:/usr/src/app
         ports: 
             - "3000:3000"
+        environment:
+            - DB_PATH=mongodb://127.0.0.1:27017/turnsystem
+    mongodb:
+        # Last stable version
+        image: mongo:4.2.5
+        ports: 
+            - 27017:27017

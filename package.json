@@ -1,0 +1,14 @@
+{
+  "name": "turnsystem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node run src/app.js",
+  },
+  "author": "Andrés Muñoz | am@andresmunozit.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

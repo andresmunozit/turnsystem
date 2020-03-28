@@ -1,0 +1,10 @@
+version: '3'
+services:
+    web:
+        build: .
+        command: npm run dev
+        volumes:
+            # The working directory is mounted as a volume, so the changes on it are detected by nodemon when running the dev script
+            - ./:/usr/src/app
+        ports: 
+            - "3000:3000"

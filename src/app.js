@@ -1,11 +1,16 @@
+const path = require('path') // Used to serve static files
 const express = require('express')
 const mongoose = require('mongoose') // This require must be deleted once the models were moved to a separated directory
 require('./db/mongoose')
 
+// Variable definitions
 const app = express()
 const port = process.env.PORT || 3000
+const publicDirPath = path.join(__dirname, '../public') // Static assets folder
 
+// Express configuration
 app.use(express.json())
+app.use( express.static(publicDirPath))
 
 // Test endpoint
 app.get('/test', (req, res) => {

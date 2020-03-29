@@ -9,7 +9,7 @@ Here is the Product Backlog of the project:
 https://docs.google.com/spreadsheets/d/1rGz-jkecBtnhbQdWe9PoH9tLc64BuAyrOapJXg6_ka0/edit?usp=sharing
 
 ## Development Environment
-To run the development environment, instal Docker and Docker Compose, and then run the following commands:
+To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build
 docker-compose up

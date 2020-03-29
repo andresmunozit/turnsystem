@@ -9,9 +9,11 @@ services:
         ports: 
             - "3000:3000"
         environment:
-            - DB_PATH=mongodb://127.0.0.1:27017/turnsystem
+            # The hostname in the URL, belongs to the mongodb container defined next
+            - DB_PATH=mongodb://mongodb:27017/turnsystem
     mongodb:
         # Last stable version
         image: mongo:4.2.5
-        ports: 
+        ports:
+            # Expose the container port to the host
             - 27017:27017

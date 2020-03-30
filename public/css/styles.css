@@ -1,0 +1,68 @@
+/* Variable definition */
+:root {
+    --primary: #272343;
+    --data-row: #E3F6F5;
+    --data-row-hover: #BAE8E8;
+    --data-heading: #909090;
+    --body: #333333;
+    --form-input: #E5E5E5;
+    --division-lines: #C4C4C4;
+}
+
+/* Reset */
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+/* CRUD container */
+.crud-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+/* Utility class: title */
+.title h3 {
+    font-family: 'Exo 2', sans-serif;
+    color: var(--primary);
+    font-size: 3rem;
+    border-left: 12px var(--data-row-hover) solid;
+    padding-left: 1rem;
+    margin-bottom: .6rem;
+}
+.crud-head .title {
+    border-bottom: 1px var(--division-lines) solid;
+}
+
+/* Utility class: actions */
+.actions {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0rem;
+}
+.actions .search-input {
+    margin-left: auto;
+}
+
+/* Utility class: primary button */
+.primary-button {
+    background-color: var(--primary);
+    color: white;
+    margin-right: 1rem;
+    padding: 10px 15px;
+    border: none;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer
+}
+
+/* Utility class: search input */
+.search-input {
+    background-color: var(--form-input);
+    border: none;
+    border-radius: 5px;
+    padding-left: 1rem;
+    font-family: 'Manjari', sans-serif;
+    font-size: 1rem;
+}

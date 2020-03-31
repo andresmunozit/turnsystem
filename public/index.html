@@ -13,37 +13,37 @@
 <body>
     <section class="crud-container">
 
-        <header class="crud-head">
-            <div class="title">
-                <h3>Queues</h3>
-            </div>
-            <div class="actions">
-                <input class="primary-button" type="button" value="SHOW DISABLED QUEUES">
-                <input class="primary-button" type="button" value="OTHER ACTION">
-                <input class="search-input" type="text" name="search" id="search" placeholder="Search...">
-            </div>
+        <!-- CRUD Header -->
+        <header class="crud-header">
+            <h1>Queues</h1>
         </header>
 
-        <div class="data">
+        <!-- Actions -->
+        <section class="actions">
+            <input class="btn-primary" type="button" value="New Queue">
+            <input class="btn-primary" type="button" value="Show Disabled Queues">
+            <input class="search-input" type="text" name="search" id="search" placeholder="Search...">
+        </section>
             
+        <!-- Data -->
+        <section class="data">
+            <!-- Data headers -->
             <div class="data-header">
                 <div class="column-header">
                     <img src="/img/icons/order-column-arrow-down.svg" alt="" class="display-arrow">
-                    <img src="/img/icons/order-column-arrow-up.svg" alt="">
-                    <h3>CODE</h3>
+                    <h2>Code</h2>
                 </div>
                 <div class="column-header">
-                    <img src="/img/icons/order-column-arrow-down.svg" alt="" class="display-arrow">
-                    <img src="/img/icons/order-column-arrow-up.svg" alt="">
-                    <h3>NAME</h3>
+                    <img src="/img/icons/order-column-arrow-down.svg" alt="">
+                    <h2>Name</h2>
                 </div>
                 <div class="column-header">
-                    <img src="/img/icons/order-column-arrow-down.svg" alt="" class="display-arrow">
-                    <img src="/img/icons/order-column-arrow-up.svg" alt="">
-                    <h3>ACTION</h3>
+                    <img src="/img/icons/order-column-arrow-down.svg" alt="">
+                    <h2>Action</h2>
                 </div>
             </div>
             
+            <!-- Data index -->
             <div class="data-body">
                 <div class="data-row">
                     <img src="/img/icons/edit-pencil.svg" alt="">
@@ -82,6 +82,7 @@
                 </div>
             </div>
 
+            <!-- Pagination -->
             <div class="pagination">
                 <a href="#" class="first">
                     <img src="/img/icons/first-arrow-white.svg" alt="">
@@ -97,7 +98,7 @@
                 </a>                
             </div>
 
-        </div>
+        </section>
 
     </section>
 </body>

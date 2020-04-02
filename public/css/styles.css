@@ -186,7 +186,7 @@ body {
 .pagination .am-last-arrow { /* Formatting the icon */
     height: 25px;
     width: 30px;
-    transform: translate(-2px, 2px )
+    transform: translateY(2px)
 }
 .pagination a:hover .am-first-arrow,
 .pagination a:hover .am-previous-arrow,
@@ -197,4 +197,10 @@ body {
 .pagination a:hover {
     background: white;
     box-shadow: 3px 3px 3px var(--division-lines);
+}
+.pagination .am-next-arrow {
+    transform: translate(2px, 2px );
+}
+.pagination .am-previous-arrow {
+    transform: translate(-2px, 2px );
 }

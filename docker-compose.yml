@@ -8,10 +8,12 @@ services:
             - ./:/usr/src/app
         ports: 
             - "3000:3000"
-        environment:
-            # The hostname in the URL, belongs to the mongodb container defined next
-            - DB_PATH=mongodb://mongodb:27017/turnsystem
-    mongodb:
+        env_file:
+            - config/dev.env
+            # To use the Docker Compose MongoDB Container as the system database, set the following variable into the config/dev.env file:
+            # (The hostname part ("db") in the URL, belongs to the MongoDB container)
+            # - DB_PATH=mongodb://db:27017/turnsystem
+    db:
         # Last stable version
         image: mongo:4.2.5
         ports:

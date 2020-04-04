@@ -35,6 +35,7 @@ router.get('/queues', async (req, res) => {
 })
 
 router.patch('/queues/:id', async (req, res) => {
+    // Verify if the parameters sent on req.body are allowed
     const fields = Object.keys(req.body)
     const allowedFields = ['name', 'code', 'enabled']
     const isValidOperation = fields.every( update => allowedFields.includes(update))
@@ -43,11 +44,13 @@ router.patch('/queues/:id', async (req, res) => {
     const _id = req.params.id
 
     try {
-        const queue = await Queue.findByIdAndUpdate({_id}, req.body,{new: true}) // new option returns the updated object
+        const queue = await Queue.findById(_id)
         if (!queue) return res.status(404).send()
+        fields.forEach( field => queue[field] = req.body[field] )
+        await queue.save() // findByIdAndUpdate(), is replaced by findById() and object.save(), in order to trigger the model middleware ('pre' for example, or validations)
         res.send(queue)
     } catch (e){
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 

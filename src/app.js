@@ -1,6 +1,6 @@
 const express = require('express')
 const queueRouter = require('./routers/queue')
-require('./db/mongoose')
+require('./db/mongoose') // Mongoose configuration (connection and parameters)
 
 // Variable definitions
 const app = express()

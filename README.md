@@ -9,6 +9,11 @@ Here is the Product Backlog of the project:
 https://docs.google.com/spreadsheets/d/1rGz-jkecBtnhbQdWe9PoH9tLc64BuAyrOapJXg6_ka0/edit?usp=sharing
 
 ## Development Environment
+Create the file 'config/dev.env' with the environment variables for development. The file must contain the following key-value pairs (the values can be changed):
+```
+PORT=3000
+DB_PATH=mongodb://db:27017/turnsystem
+```
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build

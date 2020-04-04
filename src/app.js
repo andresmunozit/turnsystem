@@ -1,12 +1,11 @@
 const path = require('path') // Used to serve static files
 const express = require('express')
 const Queue = require('./models/queue')
-
 require('./db/mongoose')
 
 // Variable definitions
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const publicDirPath = path.join(__dirname, '../public') // Static assets folder
 
 // Express configuration

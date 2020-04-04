@@ -27,10 +27,10 @@ router.get('/queues/:id', async (req, res) => {
 
 router.get('/queues', async (req, res) => {
     try {
-        const queues = await Queue.find()
+        const queues = await Queue.find().sort(req.query.sort)
         res.send(queues)
     } catch (e){
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 

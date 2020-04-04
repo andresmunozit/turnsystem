@@ -25,3 +25,11 @@ Then go to http://localhost:3000/test, you should see the following:
     "message": "Ok"
 }
 ```
+##  API Reference
+### Sorting
+Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.
+#### Example:
+Sorting the queues by code, descending:
+```
+[SERVER_URL]/queues?sort=-code
+```

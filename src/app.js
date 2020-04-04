@@ -1,6 +1,7 @@
 const path = require('path') // Used to serve static files
 const express = require('express')
-const mongoose = require('mongoose') // This require must be deleted once the models were moved to a separated directory
+const Queue = require('./models/queue')
+
 require('./db/mongoose')
 
 // Variable definitions
@@ -16,28 +17,6 @@ app.use( express.static(publicDirPath))
 app.get('/test', (req, res) => {
     res.send({message: 'Ok'})
 })
-
-// Queue model (testing purposes only, will be moved to models directory)
-const queueSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    }, 
-    code: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
-    enabled: {
-        type: Boolean,
-        default: true
-    }
-}, {timestamps: true})
-
-const Queue = mongoose.model('Queue', queueSchema)
 
 // CRUD Queue endpoints (testing purposes only, will be moved to routers directory)
 app.post('/queues', async (req, res) => {

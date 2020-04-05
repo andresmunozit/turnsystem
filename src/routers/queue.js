@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Queue = require('../models/queue')
+const { filterObject } = require('../helpers/filter')
 
 const router = express.Router()
 
@@ -29,28 +30,9 @@ router.get('/queues', async (req, res) => {
     const sort = req.query.sort || ''
     const limit = Math.abs(Math.floor(Number(req.query.limit))) || 0
     const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
-    const filterArray = req.query.filter.split(',')
-
-    // Filter object
-    const filter = {}
-
-    // Validate filter length
-    const schemaKeys = Object.keys(Queue.schema.paths)
-    if ( filterArray.length < schemaKeys.length ){
-        // Build filter
-        filterArray.forEach( filterEl => {
-            const [key, value] = filterEl.split(':')
-            filter[key] = value
-        })
-        // Validate filter keys vs Schema keys
-        if ( !Object.keys(filter).every( filterKey => schemaKeys.includes(filterKey)) ){
-            return res.status(500).send({error: 'Invalid filter options'})
-        } 
-    } else {
-        return res.status(500).send({error: 'Invalid filter options.'})
-    }
     
     try {
+        const filter = filterObject(Queue, req.query.filter)
         // Sorting and pagination.
         // Skip or limit different from a number returns NaN and are being ignored.
         const queues = await Queue.find(filter).sort(sort).skip(skip).limit(limit)

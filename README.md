@@ -25,7 +25,27 @@ Then go to http://localhost:3000/test, you should see the following:
     "message": "Ok"
 }
 ```
-##  API Reference
+## Web Container Management
+To get into the container bash, you can use the container ID or the container name.
+#### Example
+To list the running containers:
+```
+$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
+48c282492907        turnsystem_web      "docker-entrypoint.s…"   29 hours ago        Up 29 hours         0.0.0.0:3000->3000/tcp     turnsystem_web_1       
+7e754480885b        mongo:4.2.5         "docker-entrypoint.s…"   30 hours ago        Up 29 hours         0.0.0.0:27017->27017/tcp   turnsystem_db_1 
+```
+You can use the container ID "48c282492907" or the container name "turnsystem_web_1"
+#### Example
+To get into the web container's bash:
+```
+docker exec -it turnsystem_web_1 /bin/bash
+```
+or
+```
+docker exec -it 48c282492907 /bin/bash
+```
+## API Reference
 ### Sorting
 Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.
 #### Example:
@@ -36,13 +56,13 @@ Sorting the queues by code, descending:
 ### Pagination
 Limit and skip parameters are supported. This feature can be chained with sorting. The pagination will always take effect after sorting.
 Negative signs and string values are ignored for limit and skip parameters on pagination.
-#### Example 1:
+#### Example:
 To get 10 queues from the queue 20, sorted ascending by name:
 ```
 [SERVER_URL]/queues?sort=name&limit=10&skip=20
 ```
 When the limit parameter is greater than the number of documents, after filtering (filtering currently under development), the endpoint returns pagination links into the meta attribute.
-#### Example 2:
+#### Example:
 ```
 ...
 "meta": {

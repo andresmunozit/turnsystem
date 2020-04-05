@@ -29,13 +29,31 @@ router.get('/queues', async (req, res) => {
     const sort = req.query.sort || ''
     const limit = Math.abs(Math.floor(Number(req.query.limit))) || 0
     const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
+    const filterArray = req.query.filter.split(',')
+    const filter = {}
 
+    // Validate filter length
+    const schemaKeys = Object.keys(Queue.schema.paths)
+    if ( filterArray.length < schemaKeys.length ){
+        // Build filter
+        filterArray.forEach( filterEl => {
+            const [key, value] = filterEl.split(':')
+            filter[`${key}`] = value
+        })
+        // Validate filter keys vs Schema keys
+        if ( !Object.keys(filter).every( filterKey => schemaKeys.includes(filterKey)) ){
+            return res.status(500).send({error: 'Invalid filter options'})
+        } 
+    } else {
+        return res.status(500).send({error: 'Invalid filter options.'})
+    }
+    
     try {
         // Sorting and pagination.
         // Skip or limit different from a number returns NaN and are being ignored.
-        const queues = await Queue.find().sort(sort).skip(skip).limit(limit)
-        const count = await Queue.countDocuments({}, function(err, count){
-            if (err) throw new Error('Error counting documents.')
+        const queues = await Queue.find(filter).sort(sort).skip(skip).limit(limit)
+        const count = await Queue.countDocuments(filter, function(err, count){
+            if (err) throw {error: 'Error counting registers.'}
             return count // Needed to calculate the last page in pagination
         })
         

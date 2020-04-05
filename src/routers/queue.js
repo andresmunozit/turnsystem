@@ -26,9 +26,33 @@ router.get('/queues/:id', async (req, res) => {
 })
 
 router.get('/queues', async (req, res) => {
+    const sort = req.query.sort || ''
+    const limit = Number(req.query.limit) || 0
+    const skip = Number(req.query.skip) || 0
+    
     try {
-        const queues = await Queue.find().sort(req.query.sort)
-        res.send(queues)
+        // Sorting and pagination.
+        // Skip or limit different from a number returns NaN and are being ignored.
+        const queues = await Queue.find().sort(sort).skip(skip).limit(limit)
+        const count = await Queue.countDocuments({}, function(err, count){
+            if (err) throw new Error('Error counting documents.')
+            return count // Needed to calculate the last page in pagination
+        })
+        
+        // Meta contains all the metadata needed such as pagination
+        const meta = {}
+        
+        // Pagination links. For testing purposes only, it'll be moved to a helper module.
+        if (limit && count > limit) { // Only in this scenario pagination is needed, for now
+            meta.pagination = {
+                first: `/queues?sort=${sort}&limit=${limit}`,
+                previous: `/queues?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`,
+                next: `/queues?sort=${sort}&limit=${limit}&skip=${skip + limit}`,
+                last: `/queues?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`,
+            }
+        }
+
+        res.send({queues, meta})
     } catch (e){
         res.status(500).send(e)
     }

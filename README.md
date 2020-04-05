@@ -33,3 +33,23 @@ Sorting the queues by code, descending:
 ```
 [SERVER_URL]/queues?sort=-code
 ```
+### Pagination
+Limit and skip parameters are supported. This feature can be chained with sorting. The pagination will always take effect after sorting.
+#### Example 1:
+To get 10 queues from the queue 20, sorted ascending by name:
+```
+[SERVER_URL]/queues?sort=name&limit=10&skip=20
+```
+When the limit parameter is greater than the number of documents, after filtering (filtering currently under development), the endpoint returns pagination links into the meta attribute.
+#### Example 2:
+```
+...
+"meta": {
+    "pagination": {
+        "first": "/queues?sort=name&limit=2",
+        "previous": "/queues?sort=name&limit=2&skip=2",
+        "next": "/queues?sort=name&limit=2&skip=6",
+        "last": "/queues?sort=name&limit=2&skip=8"
+    }
+}
+```

@@ -1,4 +1,4 @@
-// This function validates filter string sent in te HTTP request and generates a valid filter object ready to be used by Model.filter()
+// This function validates filter string sent in te HTTP request and generates a valid filter object ready to be used by Model.find()
 const filterObject = (model, filterString) => {
     if (!filterString) return {}
     const filterArray = filterString.split(',')

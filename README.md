@@ -54,7 +54,7 @@ Sorting the queues by code, descending:
 [SERVER_URL]/queues?sort=-code
 ```
 ### Pagination
-Limit and skip parameters are supported. This feature can be chained with sorting. The pagination will always take effect after sorting.
+Limit and skip parameters are supported. This feature can be chained with sorting. The pagination will always take effect after filtering and sorting.
 Negative signs and string values are ignored for limit and skip parameters on pagination.
 #### Example:
 To get 10 queues from the queue 20, sorted ascending by name:
@@ -73,4 +73,11 @@ When the limit parameter is greater than the number of documents, after filterin
         "last": "/queues?sort=name&limit=2&skip=8"
     }
 }
+```
+### Filtering
+Filtering by several keys is allowed. The query string "...?fiter=key1=value1,key2=value2" must be used to filter documents. Right now, the values in the filters must be exactly the same that the filtered values. Filters are case sensitive. If the number of filtered keys in the HTTP request, is greater than the schema keys, the system will return an error. If one or more keys sent in the filter query, doesn't belong to the schema keys, the system will return an error. Advanced filters like ($gte) will be implemented on future versions.
+#### Example:
+To filter a queue named Loans, the following HTTP request must be used:
+```
+[SERVER_URL]/queues?fiter=name:Loans
 ```

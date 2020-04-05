@@ -30,6 +30,8 @@ router.get('/queues', async (req, res) => {
     const limit = Math.abs(Math.floor(Number(req.query.limit))) || 0
     const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
     const filterArray = req.query.filter.split(',')
+
+    // Filter object
     const filter = {}
 
     // Validate filter length
@@ -38,7 +40,7 @@ router.get('/queues', async (req, res) => {
         // Build filter
         filterArray.forEach( filterEl => {
             const [key, value] = filterEl.split(':')
-            filter[`${key}`] = value
+            filter[key] = value
         })
         // Validate filter keys vs Schema keys
         if ( !Object.keys(filter).every( filterKey => schemaKeys.includes(filterKey)) ){

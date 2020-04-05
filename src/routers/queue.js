@@ -27,9 +27,9 @@ router.get('/queues/:id', async (req, res) => {
 
 router.get('/queues', async (req, res) => {
     const sort = req.query.sort || ''
-    const limit = Number(req.query.limit) || 0
-    const skip = Number(req.query.skip) || 0
-    
+    const limit = Math.abs(Math.floor(Number(req.query.limit))) || 0
+    const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
+
     try {
         // Sorting and pagination.
         // Skip or limit different from a number returns NaN and are being ignored.

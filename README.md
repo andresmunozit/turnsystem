@@ -35,6 +35,7 @@ Sorting the queues by code, descending:
 ```
 ### Pagination
 Limit and skip parameters are supported. This feature can be chained with sorting. The pagination will always take effect after sorting.
+Negative signs and string values are ignored for limit and skip parameters on pagination.
 #### Example 1:
 To get 10 queues from the queue 20, sorted ascending by name:
 ```

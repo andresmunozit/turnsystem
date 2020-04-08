@@ -75,9 +75,24 @@ When the limit parameter is greater than the number of documents, after filterin
 }
 ```
 ### Filtering
-Filtering by several keys is allowed. The query string "...?fiter=key1=value1,key2=value2" must be used to filter documents. Right now, the values in the filters must be exactly the same that the filtered values. Filters are case sensitive. If the number of filtered keys in the HTTP request, is greater than the schema keys, the system will return an error. If one or more keys sent in the filter query, doesn't belong to the schema keys, the system will return an error. Advanced filters like ($gte) will be implemented on future versions.
-#### Example:
-To filter a queue named Loans, the following HTTP request must be used:
+Filtering by more than one key is allowed. The filters must be provided in JSON format. At this moment, only the following filters area allowed.
+#### Equals filter
+It is the default filter and the input provided must be identical in ordet to get an answer. This filter is case sensitive. For example, to search the queue named "Loans":
+##### Example
 ```
-[SERVER_URL]/queues?fiter=name:Loans
+[SERVER_URL]/queues?filter={"name":"Loans"}
+```
+#### Like filter
+Filter by similar text. This filter is case sensitive. For example, to search the queue which its name contains the string "withd" (like "Cash withdrawals"). The filtered string must be put between slashes (/):
+##### Example
+```
+[SERVER_URL]/queues?filter={"name":"/withd/"}
+```
+#### "Greather than equals", "greather than", "less than" and "less than equals" filters
+Comparative filters can be used too, like "Greather than equals" ($gte), "greather than" ($gt), "less than" ($lt) and "less than equals" ($lte).
+##### Examples
+To get the queues created after a date, including that date:
+```
+[SERVER_URL]/queues?filter={"createdAt":"$gte:2020-04-05"}
+
 ```

@@ -1,22 +1,23 @@
 // This function validates filter string sent in te HTTP request and generates a valid filter object ready to be used by Model.find()
 const filterObject = (model, filterString) => {
     if (!filterString) return {}
+    let filter = {}
     
-    try {
-        const filter = JSON.parse(filterString)
+    try{
+        filter = JSON.parse(filterString)
     } catch {
-        throw {error: 'The provided filter has an invalid format.'}
+        throw {error: 'Invalid filter format.'}
     }
 
     const schemaKeys = Object.keys(model.schema.paths)
 
     // Validate filter keys number
-    if ( Object.keys(filter).length > schemaKeys.length ) throw {error: 'Invalid filter keys.'}
+    if ( Object.keys(filter).length > schemaKeys.length ) throw {error: 'Invalid filter options.'}
 
     // Validate that all the filters are included into the schema keys
-    if ( !Object.keys(filter).every( el => schemaKeys.includes(el))) throw new Error({error: 'Invalid filter keys.'})
+    if ( !Object.keys(filter).every( el => schemaKeys.includes(el))) throw {error: 'Invalid filter options.'}
     
-    // Transform the JSON input to a valid filter
+    // Transform the value of the object if 
     Object.entries(filter).forEach( ([key, value]) => {
         if (value.match(/\/*\//i)) {
             filter[key] = eval(value)
@@ -30,10 +31,9 @@ const filterObject = (model, filterString) => {
             filter[key] = {$lte: value.replace('$lte:','')}
         }
     })
-
+    // Validate filter keys vs Schema keys
     return filter
 }
-
 module.exports = {
     filterObject
 }

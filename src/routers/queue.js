@@ -26,9 +26,9 @@ router.get('/queues/:id', async (req, res) => {
     }
 })
 
-router.get('/queues', async (req, res) => {
-    const sort = req.query.sort || ''
-    const limit = Math.abs(Math.floor(Number(req.query.limit))) || 0
+router.get('/queues(||.json)', async (req, res) => {
+    const sort = req.query.sort || '' // Default sort field is creation data
+    const limit = Math.abs(Math.floor(Number(req.query.limit))) || 5
     const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
     
     try {
@@ -47,14 +47,19 @@ router.get('/queues', async (req, res) => {
         // Pagination links. For testing purposes only, it'll be moved to a helper module.
         if (limit && count > limit) { // Only in this scenario pagination is needed, for now
             meta.pagination = {
-                first: `/queues?sort=${sort}&limit=${limit}`,
-                previous: `/queues?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`,
-                next: `/queues?sort=${sort}&limit=${limit}&skip=${skip + limit}`,
-                last: `/queues?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`,
+                first: `${req.path}?sort=${sort}&limit=${limit}`,
+                previous: `${req.path}?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`,
+                next: `${req.path}?sort=${sort}&limit=${limit}&skip=${skip + limit}`,
+                last: `${req.path}?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`,
             }
         }
-
-        res.send({queues, meta})
+       
+        // Depending on the path, JSON or HTML
+        if (req.path.match(/\.json/)) {
+            res.send({queues, meta})
+        } else {
+            res.render('views/queues',{queues, meta})
+        }
     } catch (e){
         res.status(500).send(e)
     }

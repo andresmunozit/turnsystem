@@ -67,6 +67,19 @@ web_test_1  | Ran all test suites related to changed files.
 ```
 It's mandatory to create a file which contains the environment variables needed by the testing environment in config/test.env
 ## API Reference
+### Paths
+At the moment, the application uses a REST API, and HTML templates. To use the API, you need to specify the ".json" suffix at the end of the route. No suffix is needed for HTML responses. In the future the front-end of the application probably will use only React and the REST API, but at this moment only HTML templates are implemented for the front-end.
+#### Example:
+List all the queues and get an HTML view as a response:
+```
+[SERVER_URL]/queues
+```
+#### Example:
+List all the queues and get an JSON string as a response:
+```
+[SERVER_URL]/queues.json
+```
+Both versions support sorting, pagination and filtering, see how bellow.
 ### Sorting
 Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.
 #### Example:

@@ -14,7 +14,7 @@ Create the file 'config/dev.env' with the environment variables for development.
 PORT=3000
 DB_PATH=mongodb://db:27017/turnsystem
 ```
-A similar file is mandatory in order to run the testing environment, but it should be named 'config/test.env'.
+A similar file is mandatory in order to run the testing environment, but it should be named 'config/test.env'. If the folder config doesn't exist, you must create it.
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build
@@ -65,7 +65,7 @@ web_test_1  | Snapshots:   0 total
 web_test_1  | Time:        2.942s, estimated 3s
 web_test_1  | Ran all test suites related to changed files.
 ```
-It's mandatory to create a file which contains the environment variables needed in /config/test.env
+It's mandatory to create a file which contains the environment variables needed by the testing environment in config/test.env
 ## API Reference
 ### Sorting
 Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.

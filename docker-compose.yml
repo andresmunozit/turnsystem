@@ -20,7 +20,7 @@ services:
         volumes:
             - ./:/usr/src/app
         env_file:
-            - tests/dev.env
+            - config/test.env
     db:
         # Last stable version
         image: mongo:4.2.5

@@ -8,13 +8,14 @@
     "dev": "nodemon -e js,hbs src/app.js",
     "test": "jest --watch"
   },
-  "jest":{
+  "jest": {
     "testEnvironment": "node"
   },
   "author": "Andrés Muñoz | am@andresmunozit.com",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "hbs": "^4.1.1",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.6"
   },

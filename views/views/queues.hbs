@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <title>Turn System</title>
+</head>
+<body>
+    <section class="crud-container">
+
+        <!-- CRUD Header -->
+        <header class="crud-header">
+            <h1>Queues</h1>
+        </header>
+
+        <!-- Actions -->
+        <section class="actions">
+            <input class="btn-primary" type="button" value="New Queue">
+            <input class="btn-primary" type="button" value="Show Disabled Queues">
+            <input class="search-input" type="text" name="search" id="search" placeholder="Search...">
+        </section>
+            
+        <!-- Data -->
+        <section class="data">
+            <!-- Data headers -->
+            <div class="data-header">
+                <div class="column-header">
+                    <i class="am-down-arrow"></i>
+                    <h2>Code</h2>
+                </div>
+                <div class="column-header">
+                    <i class="am-down-arrow"></i>
+                    <h2>Name</h2>
+                </div>
+                <div class="column-header">
+                    <i class="am-down-arrow"></i>
+                    <h2>Action</h2>
+                </div>
+            </div>
+            
+            <!-- Data index -->
+            <div class="data-body">
+                {{#each queues}}
+                <div class="data-row">
+                    <div>
+                        <span class="code">{{this.code}}</span>
+                    </div>
+                    <div>
+                        <p>{{this.name}}</p>
+                    </div>
+                    <div class="crud-actions">
+                        <a href="#">Edit</a>
+                        <a href="#">Disable</a>
+                        <a href="#">Delete</a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="pagination">
+            <a href="{{meta.pagination.first}}">
+                <i class="am-first-arrow"></i>
+            </a>                
+            <a href="{{meta.pagination.previous}}">
+                <i class="am-previous-arrow"></i>
+            </a>                
+            <a href="{{meta.pagination.next}}">
+                <i class="am-next-arrow"></i>
+            </a>                
+            <a href="{{meta.pagination.last}}">
+                <i class="am-last-arrow"></i>
+            </a>                
+
+        </section>
+    </section>
+    <script src="js/am-icons.js"></script>
+</body>
+</html>
+

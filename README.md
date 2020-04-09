@@ -14,6 +14,7 @@ Create the file 'config/dev.env' with the environment variables for development.
 PORT=3000
 DB_PATH=mongodb://db:27017/turnsystem
 ```
+A similar file is mandatory in order to run the testing environment, but it should be named 'config/test.env'.
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build
@@ -45,6 +46,8 @@ or
 ```
 docker exec -it 48c282492907 /bin/bash
 ```
+
+
 ## Tests
 The application uses Jest for testing. Tests are executed in a different environment called "web_test" on the docker-compose.yml file. The tests are located into the /tests directory. When docker-compose is up, the tests are executed automatically with each change of the tested files or the test files. The output will be like this:
 ```
@@ -62,6 +65,7 @@ web_test_1  | Snapshots:   0 total
 web_test_1  | Time:        2.942s, estimated 3s
 web_test_1  | Ran all test suites related to changed files.
 ```
+It's mandatory to create a file which contains the environment variables needed in /config/test.env
 ## API Reference
 ### Sorting
 Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.

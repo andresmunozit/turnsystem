@@ -45,6 +45,23 @@ or
 ```
 docker exec -it 48c282492907 /bin/bash
 ```
+## Tests
+The application uses Jest for testing. Tests are executed in a different environment called "web_test" on the docker-compose.yml file. The tests are located into the /tests directory. When docker-compose is up, the tests are executed automatically with each change of the tested files or the test files. The output will be like this:
+```
+web_test_1  | PASS tests/helpers/filter.test.js
+web_test_1  |   ✓ Should return a JSON object (equals filter) (3ms)
+web_test_1  |   ✓ Should return a JSON object (like filter)
+web_test_1  |   ✓ Should return a JSON object ($gte filter) (1ms)
+web_test_1  |   ✓ Should return a JSON object ($gt filter)
+web_test_1  |   ✓ Should return a JSON object ($lt filter)
+web_test_1  |   ✓ Should return a JSON object ($lte filter) (1ms)
+web_test_1  |
+web_test_1  | Test Suites: 1 passed, 1 total
+web_test_1  | Tests:       6 passed, 6 total
+web_test_1  | Snapshots:   0 total
+web_test_1  | Time:        2.942s, estimated 3s
+web_test_1  | Ran all test suites related to changed files.
+```
 ## API Reference
 ### Sorting
 Sorting by a unique field is supported. The query string "sort=name" or "sort=-name" must be used to sort the field "name" in ascending or descending way respectivelly. No exception is thrown if the field doesn't exist for a query, the API will just ignore it.

@@ -13,6 +13,14 @@ services:
             # To use the Docker Compose MongoDB Container as the system database, set the following variable into the config/dev.env file:
             # (The hostname part ("db") in the URL, belongs to the MongoDB container)
             # - DB_PATH=mongodb://db:27017/turnsystem
+    # The following container allows to run the tests in a separated environment, so it's not neccesary to send the test.env file to the container
+    web_test:
+        build: .
+        command: npm test
+        volumes:
+            - ./:/usr/src/app
+        env_file:
+            - tests/dev.env
     db:
         # Last stable version
         image: mongo:4.2.5

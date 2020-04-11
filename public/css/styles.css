@@ -99,12 +99,14 @@ body {
     cursor: pointer;
     transition: color .3s ease-in-out;
 }
+.data .data-header .column-header,
+.data .data-header .column-header a {
+    display: flex;
+    text-decoration: none;
+}
 .data .data-header .column-header:hover {
     color: var(--data-row-hover);
     transform: translateX(2px);
-}
-.data .data-header .column-header {
-    display: flex;
 }
 .data .data-header .column-header .am-down-arrow {
     transform: scale(.7) translateY(1px);
@@ -171,7 +173,7 @@ body {
 .pagination {
     display: flex;
     width: 250px;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-self: center;
 }
 .pagination a { /* Round buttons */

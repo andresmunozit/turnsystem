@@ -45,12 +45,15 @@ router.get('/queues(||.json)', async (req, res) => {
         const meta = {}
         
         // Pagination links. For testing purposes only, it'll be moved to a helper module.
-        if (limit && count > limit) { // Only in this scenario pagination is needed, for now
-            meta.pagination = {
-                first: `${req.path}?sort=${sort}&limit=${limit}`,
-                previous: `${req.path}?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`,
-                next: `${req.path}?sort=${sort}&limit=${limit}&skip=${skip + limit}`,
-                last: `${req.path}?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`,
+        if (limit && count > limit) { // Only in this scenario pagination is needed
+            meta.pagination = {}
+            if (skip > 0){
+                meta.pagination.first = `${req.path}?sort=${sort}&limit=${limit}`
+                meta.pagination.previous = `${req.path}?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`
+            }
+            if (count - skip > limit){
+                meta.pagination.next = `${req.path}?sort=${sort}&limit=${limit}&skip=${skip + limit}`
+                meta.pagination.last = `${req.path}?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`
             }
         }
        

@@ -20,12 +20,7 @@ To run the development environment, install Docker and Docker Compose, and then 
 docker-compose build
 docker-compose up
 ```
-Then go to http://localhost:3000/test, you should see the following:
-```
-{
-    "message": "Ok"
-}
-```
+Then go to http://localhost:3000/queues
 ## Web Container Management
 To get into the container bash, you can use the container ID or the container name.
 #### Example

@@ -67,3 +67,18 @@ test('Should read many queues', async () => {
 test('Should read one queue', async () => {
     const serverResponse = await request(app).get('/queues/000000000000000000000001').expect(200)
 })
+test('Should update one queue', async () => {
+    const serverResponse = await request(app).patch('/queues/000000000000000000000001').send({
+        enabled: false
+    }).expect(200)
+})
+test('Shouldn\'t update one queue (name already exists)', async () => {
+    const serverResponse = await request(app).patch('/queues/000000000000000000000001').send({
+        name: "Insurances"
+    }).expect(500)
+})
+test('Shouldn\'t update one queue (code already exists)', async () => {
+    const serverResponse = await request(app).patch('/queues/000000000000000000000001').send({
+        code: "IS"
+    }).expect(500)
+})

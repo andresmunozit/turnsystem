@@ -60,3 +60,10 @@ test ('Should not create a new Queue (code already exist)', async () => {
         name: 'IS'
     }).expect(400)
 })
+
+test('Should read many queues', async () => {
+    const serverResponse = await request(app).get('/queues').expect(200)
+})
+test('Should read one queue', async () => {
+    const serverResponse = await request(app).get('/queues/000000000000000000000001').expect(200)
+})

@@ -82,3 +82,9 @@ test('Shouldn\'t update one queue (code already exists)', async () => {
         code: "IS"
     }).expect(500)
 })
+test ('Should delete a Queue', async () => {
+    const serverResponse = await request(app).delete('/queues/000000000000000000000001').expect(200)
+})
+test ('Shouldn\'t delete a Queue (not found)', async () => {
+    const serverResponse = await request(app).delete('/queues/000000000000000000000003').expect(404)
+})

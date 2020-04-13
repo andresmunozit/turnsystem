@@ -1,7 +1,7 @@
 # Turn System
 This is a web application that helps to manage turn queue environments as banks, public institutions, etc.
-It is developed using JavaScript ES6/ESNext, Node.js, and a MongoDB database.
-The project is being developed using Docker and Docker Compose.
+It is being developed using JavaScript ES6/ESNext, Node.js, Express.js and a MongoDB database.
+The project is being developed using Docker containers and Docker Compose.
 
 ## Current Status
 This application is currently under development.
@@ -14,7 +14,6 @@ Create the files 'config/dev.env' and the 'config/test.env', which must contain 
 PORT=3000
 DB_PATH=mongodb://db:27017/turnsystem
 ```
-A similar file is mandatory in order to run the testing environment, but it should be named 'config/test.env'. If the folder config doesn't exist, you must create it.
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build
@@ -27,11 +26,12 @@ To get into the container bash, you can use the container ID or the container na
 To list the running containers:
 ```
 $ docker container ls
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
-48c282492907        turnsystem_web      "docker-entrypoint.s…"   29 hours ago        Up 29 hours         0.0.0.0:3000->3000/tcp     turnsystem_web_1       
-7e754480885b        mongo:4.2.5         "docker-entrypoint.s…"   30 hours ago        Up 29 hours         0.0.0.0:27017->27017/tcp   turnsystem_db_1 
+CONTAINER ID        IMAGE                 COMMAND                  CREATED              STATUS              PORTS                      NAMES
+feb744c9f172        turnsystem_web_test   "docker-entrypoint.s…"   About a minute ago   Up About a minute   3000/tcp                   turnsystem_web_test_1
+c9226e608fd8        turnsystem_web        "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:3000->3000/tcp     turnsystem_web_1    
+7e754480885b        mongo:4.2.5           "docker-entrypoint.s…"   9 days ago           Up About a minute   0.0.0.0:27017->27017/tcp   turnsystem_db_1 
 ```
-You can use the container ID "48c282492907" or the container name "turnsystem_web_1"
+You can use the container ID "c9226e608fd8" or the container name "turnsystem_web_1"
 #### Example
 To get into the web container's bash:
 ```
@@ -39,10 +39,10 @@ docker exec -it turnsystem_web_1 /bin/bash
 ```
 or
 ```
-docker exec -it 48c282492907 /bin/bash
+docker exec -it c9226e608fd8 /bin/bash
 ```
-
-
+## Web Container Update
+Regularly, the Dockerfile will be updated with the last stable version of Node.js, in order for that change to take effect, the 
 ## Tests
 The application uses Jest for testing. Tests are executed in a different environment called "web_test" on the docker-compose.yml file. The tests are located into the /tests directory. When docker-compose is up, the tests are executed automatically with each change of the tested files or the test files. The output will be like this:
 ```

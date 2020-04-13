@@ -42,7 +42,15 @@ or
 docker exec -it c9226e608fd8 /bin/bash
 ```
 ## Web Container Update
-Regularly, the Dockerfile will be updated with the last stable version of Node.js, in order for that change to take effect, the 
+Regularly, the Dockerfile will be updated with the last stable version of Node.js, in order for that change to take effect, exit Docker Compose (Ctrl + C) and delete the containers:
+```
+docker container rm turnsystem_web_1 turnsystem_web_test_1
+```
+Then rebuild and bring the containers up:
+```
+docker-compose build
+docker-compose up
+```
 ## Tests
 The application uses Jest for testing. Tests are executed in a different environment called "web_test" on the docker-compose.yml file. The tests are located into the /tests directory. When docker-compose is up, the tests are executed automatically with each change of the tested files or the test files. The output will be like this:
 ```

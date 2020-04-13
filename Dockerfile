@@ -1,5 +1,5 @@
 # Last stable version
-FROM node:12.16.1
+FROM node:12.16.2
 
 # Container work directory
 WORKDIR /usr/src/app

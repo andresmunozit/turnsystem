@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/icons.css">
     <title>Turn System</title>
 </head>
 <body>
@@ -21,8 +20,8 @@
 
         <!-- Actions -->
         <section class="actions">
-            <input class="btn-primary" type="button" value="New Queue">
-            <input class="btn-primary" type="button" value="Show Disabled Queues">
+            <input id="new-queue" class="btn-primary" type="button" value="New Queue">
+            <input id="toggle-disabled" class="btn-primary" type="button" value="Show Disabled Queues">
             <input class="search-input" type="text" name="search" id="search" placeholder="Search...">
         </section>
             
@@ -31,12 +30,16 @@
             <!-- Data headers -->
             <div class="data-header">
                 <div class="column-header">
-                    <i class="am-down-arrow"></i>
-                    <h2>Code</h2>
+                    <a href="">
+                        <i class="am-down-arrow"></i>
+                        <h2>Code</h2>
+                    </a>
                 </div>
                 <div class="column-header">
-                    <i class="am-down-arrow"></i>
-                    <h2>Name</h2>
+                    <a href="">
+                        <i class="am-down-arrow"></i>
+                        <h2>Name</h2>
+                    </a>
                 </div>
                 <div class="column-header">
                     <i class="am-down-arrow"></i>
@@ -123,6 +126,7 @@
         </section>
     </section>
     <script src="js/am-icons.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
 

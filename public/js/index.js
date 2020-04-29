@@ -1,9 +1,12 @@
 // IIFE
 (() => {
-    // Local Storage
-    const localStorage = window.localStorage;
-    localStorage.setItem('limit','5');
-    // localStorage.skip('limit','5')
+
+    // GLOBALS
+    const queuesGlobals = {
+        sort: '',
+        limit: 5
+    };
+
 
     // Declare endpoints
     const endpoints = {
@@ -26,7 +29,7 @@
             this.name = name;
         };
 
-        static async find(query){
+        static async find( query ){
             const path = `${ROUTES.queues}${query}`;
             const request = new Request( SERVER + path, { method: 'GET' });
 
@@ -45,21 +48,20 @@
     // *******************
 
     // Declare DOM strings
-    const DOMstrings = {
+    const DOMStrings = {
         newQueue: 'new-queue',
         toggleDisabled: 'toggle-disabled',
-        codeHeader: 'code-header',
+        dataHeader: 'data-header',
         dataBody: 'data-body',
     };
 
     // Select DOM elements
     const DOMElements = {
-        newQueueBtn: document.getElementById(DOMstrings.newQueue),
-        toggleDisabledBtn: document.getElementById(DOMstrings.toggleDisabled),
-        codeHeader: document.getElementById(DOMstrings.codeHeader),
-        dataBody: document.querySelector(`.${DOMstrings.dataBody}`)
+        newQueueBtn: document.getElementById(DOMStrings.newQueue),
+        toggleDisabledBtn: document.getElementById(DOMStrings.toggleDisabled),
+        dataHeader: document.querySelector( `.${DOMStrings.dataHeader}` ),
+        dataBody: document.querySelector(`.${DOMStrings.dataBody}`)
     };
-
 
 
     // Templates
@@ -82,16 +84,29 @@
     };
 
 
-    DOMElements.codeHeader.addEventListener('click', async( e ) => {
-        console.log( e.target.parentNode )
+    // Listen the event in the whole data-header and with event bubbling into it determine which element was clicked
+    DOMElements.dataHeader.addEventListener('click', async( event ) => {
 
-        // Build the filter
-        // const filter = {
-        //     sort: 'code'
-        // };  
+        // Determine which header element was clicked
+        let sort;
+        if ( event.target.matches( '#code-header, #code-header *' ) ) {
+            sort = 'code';
+        } else if ( event.target.matches( '#name-header, #name-header *' ) ){
+            sort = 'name';
+        } else {
+            return; // No sort is being done
+        };
 
-        // Get the data from the Queue model
-        const data = await Queue.find(`?sort=code&limit=5`);
+        // Change the sort depending on the previous status
+        if( queuesGlobals.sort === sort ){
+            sort = sort.startsWith('-') ? sort.replace('-','') : `-${sort}`;
+            queuesGlobals.sort = sort;
+        } else {
+            queuesGlobals.sort = sort;
+        };
+
+        // To do: Move the query logic to the model
+        const data = await Queue.find(`?sort=${ queuesGlobals.sort }&limit=${ queuesGlobals.limit }`);
 
         // Clean data-body div
         DOMElements.dataBody.innerHTML = '';
@@ -99,6 +114,6 @@
         // Render the queues
         data.queues.forEach( queue => {
             DOMElements.dataBody.insertAdjacentHTML('beforeend', DOMTemplates.queue(queue));
-        })
+        });
     });
-})()
+})();

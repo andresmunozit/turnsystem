@@ -56,6 +56,10 @@ body {
     font-size: 1rem;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 /* CRUD container */
 .crud-container {
     display: flex;

@@ -28,20 +28,20 @@
         <section class="data">
             <!-- Data headers -->
             <div class="data-header">
-                <div class="column-header">
-                    <a href="/queues?sort=code">
-                        <i class="am-down-arrow"></i>
+                <div class="column-header" id="code-header">
+                    <a href="#">
+                        <i class="am-down-arrow  hidden"></i>
                         <h2>Code</h2>
                     </a>
                 </div>
-                <div class="column-header">
-                    <a href="/queues?sort=name">
-                        <i class="am-down-arrow"></i>
+                <div class="column-header" id="name-header">
+                    <a href="#" id="name-header">
+                        <i class="am-down-arrow hidden"></i>
                         <h2>Name</h2>
                     </a>
                 </div>
                 <div class="column-header">
-                    <i class="am-down-arrow"></i>
+                    <i class="am-down-arrow hidden"></i>
                     <h2>Action</h2>
                 </div>
             </div>
@@ -93,7 +93,7 @@
         {{/if}}
     </section>
     <script src="js/am-icons.js"></script>
-    {{!-- <script src="js/index.js"></script> --}}
+    <script src="js/index.js"></script>
 </body>
 </html>
 

@@ -3,9 +3,10 @@ services:
     web:
         build: .
         command: npm run dev
+        # The working directory is mounted as a volume, so the changes on it are detected by nodemon when running the dev script
         volumes:
-            # The working directory is mounted as a volume, so the changes on it are detected by nodemon when running the dev script
             - ./:/usr/src/app
+            - /usr/src/app/node_modules
         ports: 
             - "3000:3000"
         env_file:
@@ -19,11 +20,12 @@ services:
         command: npm test
         volumes:
             - ./:/usr/src/app
+            - /usr/src/app/node_modules
         env_file:
             - config/test.env
     db:
         # Last stable version
-        image: mongo:4.2.5
+        image: mongo:4.2.6
         ports:
             # Expose the container port to the host
             - 27017:27017

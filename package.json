@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -e js,hbs src/index.js",
+    "seed": "node src/db/seed.js",
     "test": "jest --watch"
   },
   "jest": {

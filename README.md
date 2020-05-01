@@ -14,12 +14,23 @@ Create the files 'config/dev.env' and the 'config/test.env', which must contain 
 PORT=3000
 DB_PATH=mongodb://db:27017/turnsystem
 ```
+For the test environment:
+```
+PORT=3000
+DB_PATH=mongodb://db:27017/turnsystem_test
+```
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
 docker-compose build
 docker-compose up
 ```
 Then go to http://localhost:3000/queues
+
+To populate the database with seed data, run the following command from another CLI:
+```
+docker exec turnsystem_web_1 npm run seed
+```
+
 ## Web Container Management
 To get into the container bash, you can use the container ID or the container name.
 #### Example

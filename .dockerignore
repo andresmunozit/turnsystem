@@ -1,7 +1,5 @@
-*.git
 *.md
 .dockerignore
-.gitignore
 config/
 Dockerfile
 docker-compose.yml

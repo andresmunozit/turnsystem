@@ -24,6 +24,11 @@ beforeEach( async () => {
     await queueTwo.save()
 })
 
+// Close Mongoose connection after all tests
+afterAll( () => {
+    mongoose.connection.close();
+});
+
 // Test cases
 test ('Should create a new Queue', async () => {
     await request(app)

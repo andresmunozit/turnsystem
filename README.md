@@ -21,7 +21,6 @@ DB_PATH=mongodb://db:27017/turnsystem_test
 ```
 To run the development environment, install Docker and Docker Compose, and then run the following commands:
 ```
-docker-compose build
 docker-compose up
 ```
 Then go to http://localhost:3000/queues

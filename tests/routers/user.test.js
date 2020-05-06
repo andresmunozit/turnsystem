@@ -19,7 +19,7 @@ afterAll( () => {
     mongoose.connection.close();
 });
 
-// Test GET all
+// Tests GET many users
 test('Should get all users', async () => {
     const response = await request(app)
         .get('/users')
@@ -89,5 +89,6 @@ test('Should filter by "yahoo" email and sort by name', async () => {
         .toEqual(['Deondre.Mante@yahoo.com','Patrick_Bauch30@yahoo.com']);
 });
 
-
-
+test.todo('Should return error message when the filter object is wrong');
+test.todo('Should return error message when the filter object is empty');
+test.todo('Should return error message when the filter regexp is incorrect');

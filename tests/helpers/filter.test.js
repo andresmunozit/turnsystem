@@ -1,5 +1,10 @@
-const { filterObject } = require('../../src/helpers/filter')
 const Queue = require('../../src/models/queue')
+const mongoose = require('mongoose');
+const { filterObject } = require('../../src/helpers/filter')
+
+afterAll( () => {
+    mongoose.connection.close();
+});
 
 // test methods are included like globals because of Jest
 test('Should return a JSON object (equals filter)', () => {

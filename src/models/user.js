@@ -31,7 +31,7 @@ const userSchema = mongoose.Schema({
         maxLenght: [13, 'The idCardis too long']
     },
     queues: [{ type: Schema.Types.ObjectId , ref: 'Queue' }]
-});
+}, {timestamps: true});
 
 const User = mongoose.model( 'User', userSchema );
 

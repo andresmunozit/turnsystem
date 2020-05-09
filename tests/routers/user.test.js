@@ -19,21 +19,37 @@ afterAll( () => {
     mongoose.connection.close();
 });
 
-// Tests GET many users
-test('Should get all users', async () => {
-    const response = await request(app)
+// Get many users
+test('Should return all the users', async () => {
+    let response;
+
+    response = await request(app)
         .get('/users')
+        .send()
         .expect(200);
-    expect(response.body.users.length).toBe(4);
+
+    response = await request(app)
+        // .get('/users?sort=&find=&limit=&skip=')
+        .get('/users?sort=')
+        .send()
+        .expect(200);
 });
 
-test('Should sort in ascending order by email', async () => {
-    const queryString = '?sort={"email":1}'
-    const response = await request(app) 
-        .get('/users'+ queryString)
-        .expect(200);
+test('Should sort by name', async () => {
+    const response = await request(app)
+        .get('/users?sort[name]=-1')
+        .send()
+        expect(200);
+    expect(response.body.data.users.map( user => user.name))
+        .toEqual(['Patrick','Missouri','Eleazar','Deondre']);
+});
 
-    expect( response.body.users.map( user => user.email))
+test('Should sort several fields', async () => {
+    const response = await request(app)
+        .get('/users?sort[email]=1&sort[name]=-1')
+        .send()
+        .expect(200);
+    expect(response.body.data.users.map( user => user.email))
         .toEqual([
             'Deondre.Mante@yahoo.com',
             'Eleazar.Cremin32@hotmail.com',
@@ -42,53 +58,78 @@ test('Should sort in ascending order by email', async () => {
         ]);
 });
 
-test('Should sort in descending order by lastname', async () => {
-    const queryString = '?sort={"lastname":-1}'
-    const response = await request(app) 
-        .get('/users'+ queryString)
+test('Should ignore inexistent fields', async () => {
+    const response = await request(app)
+        .get('/users?sort[number]=1')
+        .send()
+        expect(200);
+});
+
+test('Should ignore not numeric values when sort', async () => {
+    let response;
+    response = await request(app)
+        .get('/users?sort[email]=text')
+        .send()
+        expect(200);
+
+    response = await request(app)
+        .get('/users?sort[email]=""')
+        .send()
+        expect(200);
+
+    response = await request(app)
+        .get('/users?sort[email]={key:value}')
+        .send()
+        expect(200);
+});
+
+
+test('OK when filter is empty', async () => {
+    let response;
+    response = await request(app)
+        // .get('/users?sort=&find=&limit=&skip=')
+        .get('/users?sort=&find=')
+        .send()
+        .expect(200);
+});
+
+test('Should filter by exact match', async () => {
+    const response = await request(app)
+        .get('/users?filter[name]=Eleazar')
+        .send()
         .expect(200);
 
-    expect( response.body.users.map( user => user.lastname))
+    expect(response.body.data.users.length)
+        .toBe(1);
+
+    expect(response.body.data.users[0].email)
+        .toBe('Eleazar.Cremin32@hotmail.com');
+});
+
+test('Should filter by coincidence', async () => {
+    const response = await request(app)
+        .get('/users?filter[email][like]=yahoo')
+        .send()
+        .expect(200);
+
+    expect(response.body.data.users.length)
+        .toBe(2);
+
+    expect(response.body.data.users.map( user => user.email))
         .toEqual([
-            'Mante',
-            'Feest',
-            'Cremin',
-            'Bauch',
+            'Deondre.Mante@yahoo.com',
+            'Patrick_Bauch30@yahoo.com'
+        ] );
+});
+
+test('Should filter by coincidence and exact match', async () => {
+    const response = await request(app)
+        .get('/users?filter[email][like]=yahoo&filter[name]=Deondre')
+        .send()
+        .expect(200);
+
+    expect(response.body.data.users.map( user => user.email))
+        .toEqual([
+            'Deondre.Mante@yahoo.com',
         ]);
 });
-
-test('Shouldn\'t sort by a value different from 1 or -1', async () => {
-    const queryString = '?sort={"idCard":134}'
-    const response = await request(app) 
-        .get('/users'+ queryString)
-        .expect(500);
-
-    expect(response.body.error)
-        .toBe('Invalid sort value for field "idCard", must be 1 or -1');
-});
-
-test('Should filter by name', async () => {
-    const queryString = '?filter={"name":"Missouri"}'
-    const response = await request(app) 
-        .get('/users'+ queryString)
-        .expect(200);
-  
-    expect(response.body.users.length).toBe(1);
-    expect(response.body.users[0].name)
-        .toEqual('Missouri');
-});
-
-test('Should filter by "yahoo" email and sort by name', async () => {
-    const queryString = '?sort={"name":1}&filter={"email":{"regexp":"yahoo","options":"i"}}'
-    const response = await request(app) 
-        .get('/users'+ queryString)
-        .expect(200);
-  
-    expect(response.body.users.length).toBe(2);
-    expect(response.body.users.map( user => user.email ))
-        .toEqual(['Deondre.Mante@yahoo.com','Patrick_Bauch30@yahoo.com']);
-});
-
-test.todo('Should return error message when the filter object is wrong');
-test.todo('Should return error message when the filter object is empty');
-test.todo('Should return error message when the filter regexp is incorrect');

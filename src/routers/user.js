@@ -1,25 +1,25 @@
 const express = require('express');
 const User = require('../models/user');
-const { formatFilterSortPag } = require('../helpers/qsFilterSortPag');
+const { formatQuery } = require('../helpers/formatQuery')
 
 const router = express.Router();
 
 router.get('/users', async (req, res) => {
-    
-    const fsp = formatFilterSortPag(req.query);
-    if(fsp.error) return res.status(500).send({error: fsp.error});
-
-    const {filter, sort, limit, skip } = fsp;
+   
+    const { sort, filter, limit, skip, error } = formatQuery(req.query);
+    if(error) return res.status(500).send({error});
 
     try {
-        const users = await User.find(filter)
+        const users = await User
+            .find(filter)
             .sort(sort)
             .limit(limit)
             .skip(skip);
-        res.send({users});
-    } catch (error) {
-        res.status(500).send({error});
+        res.send({data: {users}});
+    } catch (e) {
+        res.status(500).send({error: e.toString()});
     };
+
 });
 
 router.get('/users/:id', (req, res) => {

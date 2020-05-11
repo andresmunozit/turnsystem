@@ -133,3 +133,75 @@ test('Should filter by coincidence and exact match', async () => {
             'Deondre.Mante@yahoo.com',
         ]);
 });
+
+test('Should return 2 records', async () =>{
+    const response = await request(app)
+        .get('/users?limit=2')
+        .send()
+        .expect(200);
+    expect(response.body.data.users.length)
+        .toBe(2);
+});
+
+test('Should return an error if limit is an string', async () =>{
+    const response = await request(app)
+        .get('/users?limit=test')
+        .send()
+        .expect(500);
+    expect(response.body)
+        .toEqual({error: 'Limit must be an integer'})
+});
+
+test('Should return 3 items, when a negative integer is passed', async () =>{
+    const response = await request(app)
+        .get('/users?limit=-3')
+        .send()
+        .expect(200);
+    expect(response.body.data.users.length)
+        .toBe(3)
+});
+
+test('Skip negative values should return error', async () =>{
+    const response = await request(app)
+        .get('/users?skip=-1')
+        .send()
+        .expect(500);
+    expect(response.body)
+        .toEqual({error: 'Skip value must be a positive integer'});
+});
+
+test('Skip decimals should use the integer part', async () =>{
+    const response = await request(app)
+        .get('/users?skip=2.8')
+        .send()
+        .expect(200);
+    expect(response.body.data.users.length)
+        .toBe(2);
+});
+
+test('Skip decimals should use the integer part', async () =>{
+    const response = await request(app)
+        .get('/users?skip=test')
+        .send()
+        .expect(500);
+    expect(response.body)
+        .toEqual({error: 'Skip must be an integer'});
+});
+
+test('Should return two registers sorted by email descending', async () =>{
+    const response = await request(app)
+        .get('/users?sort[email]=-1&limit=2&skip=1')
+        .send()
+        .expect(200)
+    expect(response.body.data.users.map( user => user.email ))
+        .toEqual(['Missouri_Feest@gmail.com','Eleazar.Cremin32@hotmail.com']);
+});
+
+test('Should return one registers on a second page', async () =>{
+    const response = await request(app)
+        .get('/users?filter[email][like]=yahoo&sort[lastname]=1&limit=1&skip=1')
+        .send()
+        .expect(200)
+    expect(response.body.data.users.map( user => user.name ))
+        .toEqual(['Deondre']);
+});

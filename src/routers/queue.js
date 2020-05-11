@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Queue = require('../models/queue')
-const { filterObject } = require('../helpers/filter')
+const { formatQuery } = require('../helpers/formatQuery')
 
 const router = express.Router()
 
@@ -26,47 +26,22 @@ router.get('/queues/:id', async (req, res) => {
     }
 })
 
-router.get('/queues(||.json)', async (req, res) => {
-    const sort = req.query.sort || '' // Default sort field is creation data
-    const limit = Math.abs(Math.floor(Number(req.query.limit))) || 5
-    const skip = Math.abs(Math.floor(Number(req.query.skip))) || 0
-    
-    try {
-        const filter = filterObject(Queue, req.query.filter)
-        // Sorting and pagination.
-        // Skip or limit different from a number returns NaN and are being ignored.
-        const queues = await Queue.find(filter).sort(sort).skip(skip).limit(limit)
-        const count = await Queue.countDocuments(filter, function(err, count){
-            if (err) throw {error: 'Error counting registers.'}
-            return count // Needed to calculate the last page in pagination
-        })
-        
-        // Meta contains all the metadata needed such as pagination
-        const meta = {}
-        
-        // Pagination links. For testing purposes only, it'll be moved to a helper module.
-        if (limit && count > limit) { // Only in this scenario pagination is needed
-            meta.pagination = {}
-            if (skip > 0){
-                meta.pagination.first = `${req.path}?sort=${sort}&limit=${limit}`
-                meta.pagination.previous = `${req.path}?sort=${sort}&limit=${limit}&skip=${skip - limit > 0 ? skip - limit : 0 }`
-            }
-            if (count - skip > limit){
-                meta.pagination.next = `${req.path}?sort=${sort}&limit=${limit}&skip=${skip + limit}`
-                meta.pagination.last = `${req.path}?sort=${sort}&limit=${limit}&skip=${Math.floor(count/limit)*limit}`
-            }
-        }
-       
-        // Depending on the path, JSON or HTML
-        if (req.path.match(/\.json/)) {
-            res.send({queues, meta})
-        } else {
-            res.render('views/queues',{queues, meta})
-        }
+router.get('/queues', async (req, res) => {
+
+    const {filter, sort, limit, skip, error} = formatQuery(req.query);
+    if(error) return res.status(500).send({error});
+
+    try{
+        const queues = await Queue
+            .find(filter)
+            .sort(sort)
+            .limit(limit)
+            .skip(skip);
+        res.status(200).json({data: {queues}});
     } catch (e){
-        res.status(500).send(e)
+        res.status(500).send({error: e.toString()});
     }
-})
+});
 
 router.patch('/queues/:id', async (req, res) => {
     // Verify if the parameters sent on req.body are allowed
